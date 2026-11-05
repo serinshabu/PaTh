@@ -1,19 +1,40 @@
 # PaTh
 
-PaTh is a personal, offline-first life-tracking app for Android and Windows. It keeps records in a local SQLite database and can synchronize encrypted record content through an optional, self-hosted service.
+**Make space for the life you want to build.** PaTh is a private, offline-first tracker for the small things that shape your days: habits, goals, mood, sleep, movement, and more. A clear daily dashboard brings your quick actions and recent patterns together, while your records stay on your device.
 
-## What it includes
+PaTh runs on **Android and Windows**. Optional self-hosted sync lets paired devices share encrypted records while keeping the server under your control.
 
-- A customizable dashboard with quick actions and cards for daily tracking
-- Trackers for habits, tasks, goals, mood, sleep, workouts, and other personal records
-- Recent-history and analytics views, calendar, daily review, and reminders
-- Local backup, restore, and CSV export
-- Optional end-to-end encrypted sync between paired devices using a self-hosted API
-- Android and Windows desktop builds
+## Made for everyday use
 
-## Build from source
+- **A dashboard that fits you** — arrange the cards you care about and get to common updates through Quick add.
+- **Track your own way** — keep habits, tasks, goals, mood, sleep, gym, study, and other personal records in one place.
+- **See the recent picture** — use calendar, history, daily review, and analytics to notice your patterns over time.
+- **Stay in control of your data** — work offline, create JSON backups, and export record sets as CSV.
+- **Keep devices in sync, optionally** — pair Android and Windows with a self-hosted service; record contents are encrypted on the device before sync.
 
-Install Flutter stable, Java 17 and Android SDK tools for Android builds, and Visual Studio with **Desktop development with C++** for Windows builds.
+## Project layout
+
+```text
+.
+├── android/                 Android app runner and launcher resources
+├── assets/branding/         PaTh icon artwork
+├── backend/                 Optional self-hosted sync API and database schema
+├── docs/                    Architecture and project notes
+├── lib/
+│   ├── app/                 App setup, routing, navigation, and theme
+│   ├── data/                Database, repositories, backup, and sync
+│   └── features/            Dashboard, trackers, analytics, and settings UI
+├── test/                    Flutter unit and widget tests
+├── windows/                 Windows desktop runner and app icon
+├── pubspec.yaml             Flutter app metadata and dependencies
+└── README.md
+```
+
+See [docs/architecture.md](docs/architecture.md) for how the main pieces fit together.
+
+## Build it
+
+Install Flutter stable. For Android, also install Java 17 and the Android SDK tools. For Windows, use Visual Studio with **Desktop development with C++** enabled.
 
 ```powershell
 flutter doctor -v
@@ -24,18 +45,16 @@ flutter build apk --release
 flutter build windows --release
 ```
 
-The checked-in Android Gradle wrapper files are included for clean checkouts. Do not run `flutter create` in this existing project.
+The Android Gradle wrapper is included, so Android builds can start from a clean checkout. The Android package is development-signed, and the Windows executable is unsigned; neither is a store-ready installer.
 
-## Optional self-hosted sync
+## Optional private sync
 
-Sync requires a separately configured PostgreSQL database and API. See [backend/README.md](backend/README.md) for setup. Keep `backend/.env` private; start from the placeholder values in `backend/.env.example` and replace them with unique secrets. For phone access to a laptop-hosted server, use a private HTTPS route such as Tailscale Serve. Do not expose the API port or use Tailscale Funnel.
+The app works without a server. To synchronize paired devices, follow the [self-hosted sync setup](backend/README.md). Keep `backend/.env` private and replace every placeholder in `backend/.env.example` with unique values. For phone access to a laptop-hosted server, use a private HTTPS route such as Tailscale Serve; do not expose the API port or enable Tailscale Funnel.
 
-The server stores encrypted record envelopes and metadata needed to synchronize them; it does not receive plaintext record content or the recovery phrase. The encryption implementation has not had an independent security audit. Back up the database volume and store the recovery phrase securely: losing it makes synchronized record contents unreadable. Sync is unavailable when the self-hosted server is offline; local records continue to work.
+Record contents are encrypted on the device before upload. The server still handles device and record metadata needed to order updates. This encryption has not received an independent security audit. Back up the database and keep the recovery phrase safe: losing it makes synchronized contents unreadable. Sync pauses when the self-hosted server is offline; local records remain available.
 
-## Backups and privacy
+## Privacy notes
 
-JSON exports contain personal journal, health, and financial records in plaintext. Store them privately. Pairing tokens and recovery phrases are not included in exports.
+JSON backups contain personal journal, health, and financial records in plaintext. Keep backup files private. Pairing tokens and recovery phrases are not included in exports.
 
-PaTh is a personal project. The Android package uses a development signing key and is not Play Store signed. The Windows build is not digitally signed. Review the code and security limitations before using it with sensitive records.
-
-No open-source license is included. Public visibility lets people view the code, but does not grant permission to reuse or redistribute it.
+PaTh is a personal project. There is no open-source license, so public visibility allows people to view the code but does not grant reuse or redistribution rights. The project is not independently security-audited; review its limitations before using it for sensitive records.
