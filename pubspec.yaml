@@ -1,0 +1,36 @@
+name: life_os
+description: A private, offline-first personal life management space.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.10.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  drift: ^2.35.2
+  drift_flutter: ^0.3.1
+  flutter_riverpod: ^3.4.3
+  go_router: ^18.1.0
+  intl: ^0.20.2
+  cryptography: ^2.9.0
+  flutter_secure_storage: ^10.2.0
+  path_provider: ^2.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.7.1
+  drift_dev: ^2.35.1
+
+# path_provider_android 2.3.0+ switched to a JNI CMake target. Pin to the last
+# pre-JNI release while the upstream native target fails to materialize its
+# libdartjni.so output on this Windows toolchain.
+dependency_overrides:
+  path_provider_android: 2.2.23
+
+flutter:
+  uses-material-design: true
+

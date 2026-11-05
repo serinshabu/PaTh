@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lifeos
+      POSTGRES_USER: lifeos
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - lifeos_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lifeos -d lifeos"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://lifeos:${POSTGRES_PASSWORD}@db:5432/lifeos
+      LIFEOS_ACCOUNT_ID: ${LIFEOS_ACCOUNT_ID:?Set LIFEOS_ACCOUNT_ID in .env}
+      LIFEOS_PAIRING_CODE: ${LIFEOS_PAIRING_CODE:?Set LIFEOS_PAIRING_CODE in .env}
+      LIFEOS_PORT: 8080
+    ports:
+      # Keep the API private on this computer. Tailscale Serve can proxy this
+      # loopback-only port to a private HTTPS URL for paired devices.
+      - "127.0.0.1:8080:8080"
+volumes:
+  lifeos_pg:
