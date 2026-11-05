@@ -1,8 +1,6 @@
 # PaTh
 
-**Make space for the life you want to build.** PaTh is a private, offline-first tracker for the small things that shape your days: habits, goals, mood, sleep, movement, and more. A clear daily dashboard brings your quick actions and recent patterns together, while your records stay on your device.
-
-PaTh runs on **Android and Windows**. Optional self-hosted sync lets paired devices share encrypted records while keeping the server under your control.
+**PaTh** is a cross-platform personal life management app built with Flutter for Android and Windows. Track habits, tasks and goals, study sessions, gym visits, mood, sleep, spending, screen time, and journal entries in one private workspace. It supports offline use with local storage, optional self-hosted synchronization, calendar and analytics views, and a customizable Midnight Rose dashboard.
 
 ## Made for everyday use
 

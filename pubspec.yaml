@@ -1,5 +1,5 @@
 name: life_os
-description: A calm, private space to build habits, track goals, and understand your everyday patterns.
+description: A private Flutter life tracker for habits, goals, mood, sleep, and everyday routines.
 publish_to: none
 version: 0.1.0+1
 
