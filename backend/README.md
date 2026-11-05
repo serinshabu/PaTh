@@ -1,4 +1,4 @@
-# Life OS self-hosted sync service
+# PaTh self-hosted sync service
 
 This service stores opaque encrypted record envelopes in PostgreSQL. It never receives the recovery secret or plaintext record payloads. It provides device pairing, per-device bearer tokens, revocation, optimistic revisions, deletion tombstones, an idempotent push endpoint, and a cursor-based change log.
 
@@ -19,7 +19,7 @@ For a personal test setup, the Windows laptop can host PostgreSQL and the API. T
 3. Run `docker compose up -d --build`. The API health check should respond at `http://127.0.0.1:8080/healthz`. This loopback address is for local verification only; the app rejects plain HTTP on non-local addresses.
 4. Install Tailscale on the Windows laptop and Android phone and sign both into the same tailnet. Enable MagicDNS and HTTPS certificates if Tailscale asks.
 5. Open an Administrator PowerShell, run `tailscale serve --bg 8080`, and copy the private `https://…ts.net` address it prints. Check `tailscale serve status`; then open `https://…ts.net/healthz` in a browser on the phone while Tailscale is connected.
-6. In Life OS Sync Settings, enter that HTTPS address and the pairing code from `.env`. Choose a strong recovery phrase and enter exactly the same phrase on both devices. Store it somewhere secure; losing it prevents decryption of synchronized contents.
+6. In PaTh Sync Settings, enter that HTTPS address and the pairing code from `.env`. Choose a strong recovery phrase and enter exactly the same phrase on both devices. Store it somewhere secure; losing it prevents decryption of synchronized contents.
 
 This path uses Tailscale as the private network and TLS endpoint. The API itself remains self-hosted. Tailscale Serve is private to the tailnet; do not enable Tailscale Funnel or public port forwarding for this private sync API. Tailscale documents that Serve provisions HTTPS for the tailnet and proxies to a local service; see its [Serve guide](https://tailscale.com/docs/use-cases/application-testing/share-local-dev-server-with-team) and [CLI reference](https://tailscale.com/docs/reference/tailscale-cli/serve).
 
